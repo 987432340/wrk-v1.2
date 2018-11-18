@@ -1,10 +1,6 @@
 /*++
 
-Copyright (c) Microsoft Corporation. All rights reserved. 
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
+Copyright (c) 1994-1997  Microsoft Corporation
 
 Module Name:
 
@@ -27,15 +23,28 @@ Abstract:
                       |                              |
                       +------> ExpAllocateUuids <----+
 
+
+
+Author:
+
+    Mario Goertzel (MarioGo)  22-Nov-1994
+
+Revision History:
+
+    MikeHill    17-Jan-96   Ported ExUuidCreate & ExpUuidGetValues from RPCRT4.
+    MazharM     17-Feb-98   Add PNP support
+
 --*/
 
 #include "exp.h"
 
+
+
 //
 // Well known values
 //
 
-// Registry info for the sequence number
+// Registry info for the sequen number
 #define RPC_SEQUENCE_NUMBER_PATH L"\\Registry\\Machine\\Software\\Microsoft\\Rpc"
 #define RPC_SEQUENCE_NUMBER_NAME L"UuidSequenceNumber"
 
@@ -77,25 +86,18 @@ typedef struct _UUID_CACHED_VALUES_STRUCT {
 //  Global variables
 //
 
-#ifdef ALLOC_DATA_PRAGMA
-#pragma data_seg("PAGEDATA")
-#endif
 // UUID cache information
-LARGE_INTEGER               ExpUuidLastTimeAllocated = {0,0};
+LARGE_INTEGER               ExpUuidLastTimeAllocated;
 BOOLEAN                     ExpUuidCacheValid = CACHE_LOCAL_ONLY;
 
 // Make cache allocate UUIDs on first call.
-// Time = 0. Allocated = -1, ..., multicast bit set in node id
-UUID_CACHED_VALUES_STRUCT   ExpUuidCachedValues = { 0, -1, 0, 0, { 0x80, 'n', 'o', 'n', 'i', 'c' }};
+// Time = 0. Allocated = -1, ..., multicast bit in node id
+UUID_CACHED_VALUES_STRUCT   ExpUuidCachedValues = { 0, -1, 0, 0, { 0x80, 'm', 'a', 'r', 'i', 'o' }};
 
 // UUID Sequence number information
-ULONG                       ExpUuidSequenceNumber = 0;
-BOOLEAN                     ExpUuidSequenceNumberValid = FALSE;
-BOOLEAN                     ExpUuidSequenceNumberNotSaved = FALSE;
-
-#ifdef ALLOC_DATA_PRAGMA
-#pragma data_seg()
-#endif
+ULONG                       ExpUuidSequenceNumber;
+BOOLEAN                     ExpUuidSequenceNumberValid;
+BOOLEAN                     ExpUuidSequenceNumberNotSaved;
 
 // A lock to protect all of the above global data.
 FAST_MUTEX                  ExpUuidLock;
@@ -104,48 +106,37 @@ FAST_MUTEX                  ExpUuidLock;
 // Code section allocations
 //
 
-NTSTATUS
-ExpUuidLoadSequenceNumber (
+extern NTSTATUS ExpUuidLoadSequenceNumber(
     OUT PULONG
     );
 
-NTSTATUS
-ExpUuidSaveSequenceNumber (
+extern NTSTATUS ExpUuidSaveSequenceNumber(
     IN ULONG
     );
 
-NTSTATUS
-ExpUuidSaveSequenceNumberIf (
-    VOID
-    );
+extern NTSTATUS ExpUuidSaveSequenceNumberIf ();
 
-NTSTATUS
-ExpUuidGetValues (
+extern NTSTATUS ExpUuidGetValues(
     OUT UUID_CACHED_VALUES_STRUCT *Values
     );
 
-NTSTATUS
-ExpAllocateUuids (
-    OUT PLARGE_INTEGER Time,
-    OUT PULONG Range,
-    OUT PULONG Sequence
-    );
 
+#ifdef ALLOC_PRAGMA
 #pragma alloc_text(PAGE, ExpUuidLoadSequenceNumber)
 #pragma alloc_text(PAGE, ExpUuidSaveSequenceNumber)
 #pragma alloc_text(PAGE, ExpUuidSaveSequenceNumberIf)
 #pragma alloc_text(INIT, ExpUuidInitialization)
-#pragma alloc_text(PAGE, ExpAllocateUuids)
 #pragma alloc_text(PAGE, NtAllocateUuids)
 #pragma alloc_text(PAGE, NtSetUuidSeed)
 #pragma alloc_text(PAGE, ExpUuidGetValues)
 #pragma alloc_text(PAGE, ExUuidCreate)
+#endif
 
+
 NTSTATUS
-ExpUuidLoadSequenceNumber (
+ExpUuidLoadSequenceNumber(
     OUT PULONG Sequence
     )
-
 /*++
 
 Routine Description:
@@ -168,9 +159,7 @@ Return Value:
     Failure codes from ZwOpenKey() and ZwQueryValueKey() maybe returned.
 
 --*/
-
 {
-
     NTSTATUS Status;
     OBJECT_ATTRIBUTES ObjectAttributes;
     UNICODE_STRING KeyPath, KeyName;
@@ -226,11 +215,11 @@ Return Value:
     return(Status);
 }
 
+
 NTSTATUS
-ExpUuidSaveSequenceNumber (
+ExpUuidSaveSequenceNumber(
     IN ULONG Sequence
     )
-
 /*++
 
 Routine Description:
@@ -252,9 +241,7 @@ Return Value:
     Failure codes from ZwOpenKey() and ZwSetValueKey() maybe returned.
 
 --*/
-
 {
-
     NTSTATUS Status;
     OBJECT_ATTRIBUTES ObjectAttributes;
     UNICODE_STRING KeyPath, KeyName;
@@ -294,10 +281,10 @@ Return Value:
     return(Status);
 }
 
+
+
 NTSTATUS
-ExpUuidSaveSequenceNumberIf (
-    VOID
-    )
+ExpUuidSaveSequenceNumberIf ()
 
 /*++
 
@@ -321,7 +308,6 @@ Return Value:
 --*/
 
 {
-
     NTSTATUS Status = STATUS_SUCCESS;
 
     PAGED_CODE();
@@ -332,7 +318,7 @@ Return Value:
         // Print this message just to make sure we aren't hitting the
         // registry too much under normal usage.
 
-        KdPrintEx((DPFLTR_SYSTEM_ID, DPFLTR_WARNING_LEVEL, "Uuid: Saving new sequence number.\n"));
+        KdPrint(("Uuid: Saving new sequence number.\n"));
 
         // Save the sequence number
 
@@ -347,6 +333,9 @@ Return Value:
     return( Status );
 }
 
+
+
+
 BOOLEAN
 ExpUuidInitialization (
     VOID
@@ -369,6 +358,7 @@ Return Value:
 --*/
 
 {
+    NTSTATUS Status;
 
     PAGED_CODE();
 
@@ -383,6 +373,7 @@ Return Value:
     return TRUE;
 }
 
+
 NTSTATUS
 ExpAllocateUuids (
     OUT PLARGE_INTEGER Time,
@@ -423,12 +414,11 @@ Return Value:
         and the allocator is out of cached values.
 
     STATUS_UNSUCCESSFUL is returned if some other service reports
-        an error, most likly the registry.
+        an error, most likly the registery.
 
 --*/
 
 {
-
     NTSTATUS Status;
     LARGE_INTEGER CurrentTime;
     LARGE_INTEGER AvailableTime;
@@ -452,7 +442,7 @@ Return Value:
             // This should only happen when we're called
             // for the first time on a given machine. (machine, not boot)
 
-            KdPrintEx((DPFLTR_SYSTEM_ID, DPFLTR_WARNING_LEVEL, "Uuid: Generating first sequence number.\n"));
+            KdPrint(("Uuid: Generating first sequence number.\n"));
 
             PerfCounter = KeQueryPerformanceCounter(&PerfFrequency);
 
@@ -470,7 +460,7 @@ Return Value:
         }
 
     //
-    // Get the current time, usually we will have plenty of available
+    // Get the current time, usually we will have plenty of avaliable
     // to give the caller.  But we may need to deal with time going
     // backwards and really fast machines.
     //
@@ -537,41 +527,39 @@ Return Value:
 
 #define SEED_SIZE 6 * sizeof(CHAR)
 
+
 NTSTATUS
 NtSetUuidSeed (
-    __in PCHAR Seed
+    IN PCHAR Seed
     )
-
 /*++
 
 Routine Description:
 
     This routine is used to set the seed used for UUID generation. The seed
     will be set by RPCSS at startup and each time a card is replaced.
-
+    
 Arguments:
 
     Seed - Pointer to a six byte buffer
-
+    
 Return Value:
 
     STATUS_SUCCESS is returned if the service is successfully executed.
 
-    STATUS_ACCESS_DENIED If caller doesn't have the permissions to make this call.
+    STATUS_ACCESS_DENIED If caller doesn't have the permissions to make this call. 
     You need to be logged on as Local System in order to call this API.
 
     STATUS_ACCESS_VIOLATION is returned if the Seed could not be read.
-
+    
 --*/
-
 {
-
     NTSTATUS Status;
     LUID AuthenticationId;
     SECURITY_SUBJECT_CONTEXT SubjectContext;
     LUID SystemLuid = SYSTEM_LUID;
     BOOLEAN CapturedSubjectContext = FALSE;
-
+    
     PAGED_CODE();
 
     ASSERT(KeGetPreviousMode() != KernelMode);
@@ -580,7 +568,7 @@ Return Value:
         //
         // Check if the caller has the appropriate permission
         //
-        SeCaptureSubjectContext(&SubjectContext);
+        SeCaptureSubjectContext(&SubjectContext); 
         CapturedSubjectContext = TRUE;
 
         Status = SeQueryAuthenticationIdToken(
@@ -589,7 +577,7 @@ Return Value:
         if (!NT_SUCCESS(Status)) {
             ExRaiseStatus(Status);
             }
-
+        
         if (RtlCompareMemory(&AuthenticationId, &SystemLuid, sizeof(LUID)) != sizeof(LUID)) {
             ExRaiseStatus(STATUS_ACCESS_DENIED);
             }
@@ -597,7 +585,7 @@ Return Value:
         //
         // Store the UUID seed
         //
-        ProbeForReadSmallStructure(Seed, SEED_SIZE, sizeof(CHAR));
+        ProbeForRead(Seed, SEED_SIZE, sizeof(CHAR));
         RtlCopyMemory(&ExpUuidCachedValues.NodeId[0], Seed, SEED_SIZE);
 
         if ((Seed[0] & 0x80) == 0)
@@ -610,7 +598,7 @@ Return Value:
             {
             ExpUuidCacheValid = CACHE_LOCAL_ONLY;
             }
-
+        
         Status = STATUS_SUCCESS;
     }
     except (EXCEPTION_EXECUTE_HANDLER) {
@@ -624,12 +612,13 @@ Return Value:
     return Status;
 }
 
+
 NTSTATUS
 NtAllocateUuids (
-    __out PULARGE_INTEGER Time,
-    __out PULONG Range,
-    __out PULONG Sequence,
-    __out PCHAR Seed
+    OUT PULARGE_INTEGER Time,
+    OUT PULONG Range,
+    OUT PULONG Sequence,
+    OUT PCHAR Seed
     )
 
 /*++
@@ -658,7 +647,7 @@ Arguments:
         range of time to prevent problems with clocks going backwards.
 
     Seed - Pointer to a 6 byte buffer. The current seed is written into this buffer.
-
+    
 Return Value:
 
     STATUS_SUCCESS is returned if the service is successfully executed.
@@ -671,7 +660,7 @@ Return Value:
         UUID cannot be written.
 
     STATUS_UNSUCCESSFUL is returned if some other service reports
-        an error, most likly the registry.
+        an error, most likly the registery.
 
 --*/
 
@@ -683,7 +672,6 @@ Return Value:
     LARGE_INTEGER OutputTime;
     ULONG OutputRange;
     ULONG OutputSequence;
-    PKTHREAD CurrentThread;
 
     PAGED_CODE();
 
@@ -702,18 +690,19 @@ Return Value:
 
         PreviousMode = KeGetPreviousMode();
         if (PreviousMode != KernelMode) {
-            ProbeForWriteSmallStructure((PVOID)Time, sizeof(LARGE_INTEGER), sizeof(ULONG));
-            ProbeForWriteUlongAligned32(Range);
-            ProbeForWriteUlongAligned32(Sequence);
-            ProbeForWriteSmallStructure((PVOID)Seed, SEED_SIZE, sizeof(CHAR));
+            ProbeForWrite((PVOID)Time, sizeof(LARGE_INTEGER), sizeof(ULONG));
+            ProbeForWrite((PVOID)Range, sizeof(ULONG), sizeof(ULONG));
+            ProbeForWrite((PVOID)Sequence, sizeof(ULONG), sizeof(ULONG));
+            ProbeForWrite((PVOID)Seed, SEED_SIZE, sizeof(CHAR));
             }
-    } except (ExSystemExceptionFilter()) {
+        }
+    except (ExSystemExceptionFilter()) {
         return GetExceptionCode();
-    }
+        }
 
     // Take the lock, because we're about to update the UUID cache.
-    CurrentThread = KeGetCurrentThread ();
-    KeEnterCriticalRegionThread(CurrentThread);
+
+    KeEnterCriticalRegion();
     ExAcquireFastMutexUnsafe(&ExpUuidLock);
 
     // Get the sequence number and a range of times that can
@@ -723,9 +712,9 @@ Return Value:
 
     if( !NT_SUCCESS(Status) ) {
         ExReleaseFastMutexUnsafe(&ExpUuidLock);
-        KeLeaveCriticalRegionThread(CurrentThread);
+        KeLeaveCriticalRegion();
         return( Status );
-    }
+        }
 
     // If necessary, save the sequence number.  If there's an error,
     // we'll just leave it marked as dirty, and retry on some future call.
@@ -734,7 +723,7 @@ Return Value:
 
     // Release the lock
     ExReleaseFastMutexUnsafe(&ExpUuidLock);
-    KeLeaveCriticalRegionThread(CurrentThread);
+    KeLeaveCriticalRegion();
 
     //
     // Attempt to store the result of this call into the output parameters.
@@ -747,18 +736,21 @@ Return Value:
         *Range = OutputRange;
         *Sequence = OutputSequence;
         RtlCopyMemory((PVOID) Seed, &ExpUuidCachedValues.NodeId[0], SEED_SIZE);
-    } except (ExSystemExceptionFilter()) {
-        return GetExceptionCode();
     }
+    except (ExSystemExceptionFilter()) {
+        return GetExceptionCode();
+        }
 
     return(STATUS_SUCCESS);
 }
 
+
+
+
 NTSTATUS
-ExpUuidGetValues (
+ExpUuidGetValues(
     OUT UUID_CACHED_VALUES_STRUCT *Values
     )
-
 /*++
 
 Routine Description:
@@ -794,9 +786,7 @@ Return Value:
         of UUIDs, for some reason other than the clock not advancing.
 
 --*/
-
 {
-
     NTSTATUS Status;
     LARGE_INTEGER Time;
     ULONG Range;
@@ -845,9 +835,11 @@ Return Value:
     return(STATUS_SUCCESS);
 }
 
+
+
 NTSTATUS
-ExUuidCreate (
-    __out UUID *Uuid
+ExUuidCreate(
+    OUT UUID *Uuid
     )
 
 /*++
@@ -872,13 +864,11 @@ Return Value:
 --*/
 
 {
-
     NTSTATUS Status = STATUS_SUCCESS;
 
     UUID_GENERATE  *UuidGen = (UUID_GENERATE *) Uuid;
     ULONGLONG       Time;
     LONG            Delta;
-    PKTHREAD        CurrentThread;
 
     PAGED_CODE();
 
@@ -887,7 +877,6 @@ Return Value:
     // it and retry.  The first time cache will be empty.
     //
 
-    CurrentThread = KeGetCurrentThread ();
     for(;;) {
 
         // Get the highest value in the cache (though it may not
@@ -911,29 +900,29 @@ Return Value:
             // thread already took the lock and updated the cache. We'll
             // just loop and try again.
             continue;
-        }
+            }
 
         // If the cache hadn't already run dry, we can break out of this retry
         // loop.
         if (Delta >= 0) {
             break;
-        }
+            }
 
         //
         // Allocate a new block of Uuids.
         //
 
         // Take the cache lock
-        KeEnterCriticalRegionThread(CurrentThread);
+        KeEnterCriticalRegion();
         ExAcquireFastMutexUnsafe(&ExpUuidLock);
 
         // If the cache has already been updated, try again.
         if (Time != ExpUuidCachedValues.Time) {
             // Release the lock
             ExReleaseFastMutexUnsafe(&ExpUuidLock);
-            KeLeaveCriticalRegionThread(CurrentThread);
+            KeLeaveCriticalRegion();
             continue;
-        }
+            }
 
         // Update the cache.
         Status = ExpUuidGetValues( &ExpUuidCachedValues );
@@ -941,9 +930,9 @@ Return Value:
         if (Status != STATUS_SUCCESS) {
             // Release the lock
             ExReleaseFastMutexUnsafe(&ExpUuidLock);
-            KeLeaveCriticalRegionThread(CurrentThread);
+            KeLeaveCriticalRegion();
             return(Status);
-        }
+            }
 
         // The sequence number may have been dirtied, see if it needs
         // to be saved.  If there's an error, we'll ignore it and
@@ -953,10 +942,10 @@ Return Value:
 
         // Release the lock
         ExReleaseFastMutexUnsafe(&ExpUuidLock);
-        KeLeaveCriticalRegionThread(CurrentThread);
+        KeLeaveCriticalRegion();
 
-    // Loop
-    }
+        // Loop
+        }
 
     // Adjust the time to that of the next available UUID.
     Time -= Delta;
@@ -973,8 +962,7 @@ Return Value:
 
     if (ExpUuidCacheValid == CACHE_LOCAL_ONLY) {
         Status = RPC_NT_UUID_LOCAL_ONLY;
-    }
+        }
 
     return(Status);
 }
-

@@ -1,10 +1,6 @@
 /*++
 
-Copyright (c) Microsoft Corporation. All rights reserved. 
-
-You may only use this code if you agree to the terms of the Windows Research Kernel Source Code License agreement (see License.txt).
-If you do not agree to the terms, do not use the code.
-
+Copyright (c) 1989  Microsoft Corporation
 
 Module Name:
 
@@ -32,6 +28,12 @@ Abstract:
     The value of status handled by this filter are listed in the routine
     FsRtlIsNtstatusExpected.
 
+Author:
+
+    Gary Kimura     [GaryKi]    4-Jan-1991
+
+Revision History:
+
 --*/
 
 #include "FsRtlP.h"
@@ -45,8 +47,8 @@ Abstract:
 
 NTSTATUS
 FsRtlNormalizeNtstatus (
-    __in NTSTATUS Exception,
-    __in NTSTATUS GenericException
+    IN NTSTATUS Exception,
+    IN NTSTATUS GenericException
     )
 
 /*++
@@ -78,7 +80,7 @@ Return Value:
 
 BOOLEAN
 FsRtlIsNtstatusExpected (
-    __in NTSTATUS Exception
+    IN NTSTATUS Exception
     )
 
 /*++
@@ -118,11 +120,10 @@ Return Value:
 
 #undef FsRtlAllocatePool
 
-__bcount(NumberOfBytes)
 PVOID
 FsRtlAllocatePool (
-    __in POOL_TYPE PoolType,
-    __in ULONG NumberOfBytes
+    IN POOL_TYPE PoolType,
+    IN ULONG NumberOfBytes
     )
 
 /*++
@@ -164,11 +165,10 @@ Return Value:
 #undef FsRtlAllocatePoolWithQuota
 
 
-__bcount(NumberOfBytes)
 PVOID
 FsRtlAllocatePoolWithQuota (
-    __in POOL_TYPE PoolType,
-    __in ULONG NumberOfBytes
+    IN POOL_TYPE PoolType,
+    IN ULONG NumberOfBytes
     )
 
 /*++
@@ -210,12 +210,11 @@ Return Value:
 
 #undef FsRtlAllocatePoolWithTag
 
-__bcount(NumberOfBytes)
 PVOID
 FsRtlAllocatePoolWithTag (
-    __in POOL_TYPE PoolType,
-    __in ULONG NumberOfBytes,
-    __in ULONG Tag
+    IN POOL_TYPE PoolType,
+    IN ULONG NumberOfBytes,
+    IN ULONG Tag
     )
 
 /*++
@@ -257,12 +256,11 @@ Return Value:
 
 #undef FsRtlAllocatePoolWithQuotaTag
 
-__bcount(NumberOfBytes)
 PVOID
 FsRtlAllocatePoolWithQuotaTag (
-    __in POOL_TYPE PoolType,
-    __in ULONG NumberOfBytes,
-    __in ULONG Tag
+    IN POOL_TYPE PoolType,
+    IN ULONG NumberOfBytes,
+    IN ULONG Tag
     )
 
 /*++
@@ -304,7 +302,7 @@ Return Value:
 
 BOOLEAN
 FsRtlIsTotalDeviceFailure(
-    __in NTSTATUS Status
+    IN NTSTATUS Status
     )
 
 /*++
@@ -345,4 +343,3 @@ Return Value:
         return TRUE;
     }
 }
-

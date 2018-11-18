@@ -2,124 +2,124 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="base">
-      <UniqueIdentifier>{056956e3-2483-4298-a2c9-d5c592c795ed}</UniqueIdentifier>
+      <UniqueIdentifier>{dc50dc9f-14e9-4e02-bc90-bdbcdfff9f8d}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos">
-      <UniqueIdentifier>{fc0ef298-99eb-470a-a648-f031e7d3a97c}</UniqueIdentifier>
+      <UniqueIdentifier>{92011a60-d77b-44ff-a795-1cf3d9ecde63}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\cache">
-      <UniqueIdentifier>{aa21df85-b464-4170-84a1-f55ecca8c9cc}</UniqueIdentifier>
+      <UniqueIdentifier>{625e2f52-b6b6-4776-8d23-0ed635362517}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\config">
-      <UniqueIdentifier>{a3aedb94-efb0-4ac7-a8f6-15da8d9a414a}</UniqueIdentifier>
+      <UniqueIdentifier>{9a826c29-2cf0-4568-8f56-89d1dc9b98a4}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\dbgk">
-      <UniqueIdentifier>{5292007d-e6d4-4492-95e4-2347b75c609c}</UniqueIdentifier>
+      <UniqueIdentifier>{37b8aee8-b397-446a-9056-537973539fe0}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\ex">
-      <UniqueIdentifier>{44cfc964-cc99-4c95-9da0-066e6b6b096b}</UniqueIdentifier>
+      <UniqueIdentifier>{c2bafa21-2ada-44fa-b8d4-9ce3de0a4b6c}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\ex\amd64">
-      <UniqueIdentifier>{e92128a5-eb57-4f26-92a2-6e1ac6b5ac89}</UniqueIdentifier>
+      <UniqueIdentifier>{487f38bb-fdcf-4a3e-a998-27bae67ec669}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\ex\i386">
-      <UniqueIdentifier>{d54363d6-c251-4e04-9984-aba8e6f34d05}</UniqueIdentifier>
+      <UniqueIdentifier>{88924696-3901-4c44-a91f-81c64bc2d475}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\fsrtl">
-      <UniqueIdentifier>{00040a5d-d3aa-449a-a19c-6f0da09a7de0}</UniqueIdentifier>
+      <UniqueIdentifier>{336cd74a-3554-4a02-8c80-4bf189800897}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\fstub">
-      <UniqueIdentifier>{5cf46fd8-b08d-417e-a540-ff6325ec4e57}</UniqueIdentifier>
+      <UniqueIdentifier>{58eed5c6-0713-4bba-b750-5f581dcbb2af}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\inc">
-      <UniqueIdentifier>{368adce9-3607-4b3e-ab99-5bf7bcb4f454}</UniqueIdentifier>
+      <UniqueIdentifier>{3bd79bcb-188f-4ff8-ae11-fc231a417d0a}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\init">
-      <UniqueIdentifier>{6b92d6a7-6913-47fb-b4cc-3dfd2f173b4a}</UniqueIdentifier>
+      <UniqueIdentifier>{493a2943-d339-4253-a6cd-152aff637e90}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\io">
-      <UniqueIdentifier>{28720f82-0f81-404c-8f24-cbe0d06f7c3a}</UniqueIdentifier>
+      <UniqueIdentifier>{da62115d-6c46-422a-9e1b-1c7f506f6cb9}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\io\iomgr">
-      <UniqueIdentifier>{e7a842b6-ccd9-4efe-a91b-a454773214bf}</UniqueIdentifier>
+      <UniqueIdentifier>{357e5260-1a80-4d09-95bd-a61c004d4286}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\io\PNPMGR">
-      <UniqueIdentifier>{334b53ca-b70f-4995-8279-396bffbcc7b7}</UniqueIdentifier>
+      <UniqueIdentifier>{48628411-4dd4-4f05-8559-c3b55f35edfd}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\ke">
-      <UniqueIdentifier>{8c83e0bc-523a-425f-87ae-b4c3ededc4f8}</UniqueIdentifier>
+      <UniqueIdentifier>{514166cf-5518-49be-bdcb-b09083b0575a}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\ke\amd64">
-      <UniqueIdentifier>{b8e97a64-437c-4834-bbdb-07530ad63085}</UniqueIdentifier>
+      <UniqueIdentifier>{1278b726-eeb7-4377-90cb-615c98c72d91}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\ke\i386">
-      <UniqueIdentifier>{c3bf0287-2cca-4602-9e9f-d99bf041b27f}</UniqueIdentifier>
+      <UniqueIdentifier>{c972a266-3d3d-4d7e-a31f-b245899837d1}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\lpc">
-      <UniqueIdentifier>{d8391450-9614-4c98-a693-883f850cc362}</UniqueIdentifier>
+      <UniqueIdentifier>{dc73d375-866a-4534-9267-fdfd99787f1c}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\lpc\i386">
-      <UniqueIdentifier>{4b5a259c-7a29-4823-b98c-40c8e92b34fc}</UniqueIdentifier>
+      <UniqueIdentifier>{654e54b1-a377-4b1a-a106-a2266b2b3c1d}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\mm">
-      <UniqueIdentifier>{61d0ee7a-7a45-4121-aa33-8d16fa0615a4}</UniqueIdentifier>
+      <UniqueIdentifier>{11fbc0ce-4ff6-4e93-b392-7579432f87c8}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\mm\amd64">
-      <UniqueIdentifier>{dc9cb501-9fa9-46e8-83e7-8fefb48b51be}</UniqueIdentifier>
+      <UniqueIdentifier>{08d49b30-5695-433d-b35a-b0bc669a78bd}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\mm\i386">
-      <UniqueIdentifier>{2c4ab976-6503-4b22-99a4-0d3497dac001}</UniqueIdentifier>
+      <UniqueIdentifier>{df0d628e-fe06-4e47-92e5-e635815e5c42}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\ob">
-      <UniqueIdentifier>{35e15913-fbe7-4669-a1b1-e0766149eb40}</UniqueIdentifier>
+      <UniqueIdentifier>{fb0bca7d-225b-4631-b7ff-3b4b0f254d62}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\perf">
-      <UniqueIdentifier>{4354de4e-9226-4d4d-86ca-3451fae82b92}</UniqueIdentifier>
+      <UniqueIdentifier>{7ffe7636-0ff7-45fb-a890-4806d2498619}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\ps">
-      <UniqueIdentifier>{1a7a92f1-b9ba-4ad3-b3b6-d911b689e874}</UniqueIdentifier>
+      <UniqueIdentifier>{0421d62c-4861-4af4-b219-9e88db6ce5b5}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\ps\amd64">
-      <UniqueIdentifier>{87540fee-9228-47f1-8c4b-bdfdb4bb61a5}</UniqueIdentifier>
+      <UniqueIdentifier>{38c7a7d0-eabe-4002-8c5b-8619d095cfca}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\ps\i386">
-      <UniqueIdentifier>{cd0c5739-bf5b-4e1c-8cb2-b351a06825f9}</UniqueIdentifier>
+      <UniqueIdentifier>{4165d014-7714-498c-a257-3f39add5ef73}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\raw">
-      <UniqueIdentifier>{4c397a0b-3fbc-4b40-ab76-ec8be5c86295}</UniqueIdentifier>
+      <UniqueIdentifier>{ddc72414-025a-41a4-8fe5-b7476cdb7a38}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\rtl">
-      <UniqueIdentifier>{b7aa0e7e-f61d-4596-9748-7f338568e3df}</UniqueIdentifier>
+      <UniqueIdentifier>{2197163d-a5ca-43e6-aab9-d896eb4113b9}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\rtl\amd64">
-      <UniqueIdentifier>{7e46a3e4-2a10-45c1-b379-91a877887172}</UniqueIdentifier>
+      <UniqueIdentifier>{6ca14b7b-f7c9-4169-af9e-b0c268230985}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\rtl\i386">
-      <UniqueIdentifier>{7f437832-ec82-4f9d-850f-4d5b96795374}</UniqueIdentifier>
+      <UniqueIdentifier>{8cd49490-76ea-478b-986c-488567c1979f}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\se">
-      <UniqueIdentifier>{0bb0d2b3-fc2c-4625-955a-0102b6e31fc7}</UniqueIdentifier>
+      <UniqueIdentifier>{685c37e2-7d4c-4072-841d-11a72d2fea63}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\VDM">
-      <UniqueIdentifier>{195ea0a6-bcef-46e4-97e4-79591765d2a1}</UniqueIdentifier>
+      <UniqueIdentifier>{f6cb5f60-169f-4a25-b8a4-e801284e7633}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\VDM\i386">
-      <UniqueIdentifier>{419bc053-320f-4480-8391-4baeb74cdf4c}</UniqueIdentifier>
+      <UniqueIdentifier>{63573aee-21d5-40a1-8930-56d05deecc83}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\VERIFIER">
-      <UniqueIdentifier>{095b9ef1-0d6b-43c3-9946-2d4291f0ed06}</UniqueIdentifier>
+      <UniqueIdentifier>{058f229a-6142-40fb-861a-3b4f4cc97e29}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\wmi">
-      <UniqueIdentifier>{07ddcb9f-dbae-4d66-9be7-0296a32bbb6a}</UniqueIdentifier>
+      <UniqueIdentifier>{0576584e-27ea-45de-a76b-1f58bf8ecbc0}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\wmi\amd64">
-      <UniqueIdentifier>{0d899b2e-4a7c-41f8-9bb2-75d4e5899ba6}</UniqueIdentifier>
+      <UniqueIdentifier>{f1223e70-d7ca-4b59-9271-eb0e5273dfdf}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\ntos\wmi\i386">
-      <UniqueIdentifier>{39dbd10d-3742-4112-b897-9a4e0b45fb56}</UniqueIdentifier>
+      <UniqueIdentifier>{372b7571-d6f6-4fee-8f3f-9e39a1a1ea65}</UniqueIdentifier>
     </Filter>
     <Filter Include="base\inc">
-      <UniqueIdentifier>{bce1bddc-a84b-406a-8238-449de6174427}</UniqueIdentifier>
+      <UniqueIdentifier>{89be21d9-fef3-4858-9082-7d257159b070}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

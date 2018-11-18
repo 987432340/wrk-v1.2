@@ -651,7 +651,7 @@ PspNullSpecialApc(
 
     ExFreePool (Apc);
 }
-
+//ÍË³ö
 VOID
 PsExitSpecialApc(
     IN PKAPC Apc,

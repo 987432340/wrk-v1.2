@@ -15,6 +15,7 @@ asobjs= \
 	$(OBJ)\clockint.obj 	\
 	$(OBJ)\ctxswap.obj  	\
 	$(OBJ)\cpu.obj      	\
+	$(OBJ)\idsched.obj		\
 	$(OBJ)\emv86.obj    	\
 	$(OBJ)\emxcptn.obj  	\
 	$(OBJ)\int.obj      	\
@@ -110,7 +111,6 @@ ccobjs= \
 	$(OBJ)\eventobj.obj		\
 	$(OBJ)\gateobj.obj		\
 	$(OBJ)\hifreqlk.obj		\
-	$(OBJ)\idsched.obj		\
 	$(OBJ)\interobj.obj		\
 	$(OBJ)\kernldat.obj		\
 	$(OBJ)\kevutil.obj		\

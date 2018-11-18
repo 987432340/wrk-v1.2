@@ -1788,7 +1788,7 @@ Return Value:
             }
             break;
 
-        case SystemProcessorInformation:
+        case SystemProcessorInformation:    
             if (SystemInformationLength < sizeof( SYSTEM_PROCESSOR_INFORMATION )) {
                 return STATUS_INFO_LENGTH_MISMATCH;
             }
