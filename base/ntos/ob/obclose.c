@@ -74,8 +74,10 @@ Return Value:
     //  header, get its type and its body
     //
 
+	// 通过ObjectTableEntry取得对象header
     ObjectHeader = (POBJECT_HEADER)(((ULONG_PTR)(ObjectTableEntry->Object)) & ~OBJ_HANDLE_ATTRIBUTES);
-    ObjectType = ObjectHeader->Type;
+	// 通过ObjectHeader取得ObjectType、Object
+	ObjectType = ObjectHeader->Type;
     Object = &ObjectHeader->Body;
 
     //
@@ -85,6 +87,7 @@ Return Value:
     //  to our caller
     //
 
+	// 如果这里的OkayToCloseProcedure字段为T，则表示要调用关闭函数，需要调用回调函数
     if (ObjectType->TypeInfo.OkayToCloseProcedure != NULL) {
 
         ObpBeginTypeSpecificCallOut( SaveIrql );
@@ -96,8 +99,10 @@ Return Value:
 
             ObpEndTypeSpecificCallOut( SaveIrql, "NtClose", ObjectType, Object );
 
+			// 解锁Entry
             ExUnlockHandleTableEntry( ObjectTable, ObjectTableEntry );
 
+			// 直接返回
             return STATUS_HANDLE_NOT_CLOSABLE;
         }
 
@@ -112,6 +117,7 @@ Return Value:
     //  on the global flags and debugger port situation.
     //
 
+	// 如果前一个模式是用户模式，
     if ((CapturedAttributes & OBJ_PROTECT_CLOSE) != 0 && Rundown == FALSE) {
 
         if (PreviousMode != KernelMode) {
