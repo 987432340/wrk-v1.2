@@ -340,6 +340,7 @@ Return Value:
                     (CurrentProcess->DebugPort != NULL) ||
                     (ObjectTable->DebugInfo != NULL)) {
 
+                	// ntclose能反调试的原因
                     if (!KeIsAttachedProcess()) {
                         return KeRaiseUserException (STATUS_INVALID_HANDLE);
                     } else {
